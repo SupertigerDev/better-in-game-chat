@@ -7,11 +7,11 @@ NOTE: this overlay is 10% finished and is in WIP. It currently only works with V
 
 
 
-What most games currently do:
-• Close on you for no reason
-• Chat delay (I hate you Valorant)
-• Close when on the loading screen
-• Close when you res-pawn
+What most games currently do:   
+• Close on you for no reason   
+• Chat delay (I hate you Valorant)   
+• Close when on the loading screen   
+• Close when you res-pawn   
 
 Overwatch doesn't have any single of these issues, and so does this app.
 
