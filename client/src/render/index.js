@@ -174,7 +174,7 @@ const onEnterPressed = (message) => {
     createMessage("orange", "Profile", "Type '/username <username>' to continue.");
     return;
   }
-  socket.emit("createMessage", {username, message});
+  socket.emit("createMessage", {message});
   createMessage(color, username, message);
 }
 

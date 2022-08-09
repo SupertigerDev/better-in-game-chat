@@ -18,8 +18,8 @@ io.on("connection", (socket) => {
       username = _username;
     })
 
-    socket.on("createMessage", ({message, username, color}) => {
-      socket.broadcast.emit("newMessage", {message, username, color});
+    socket.on("createMessage", ({message}) => {
+      socket.broadcast.emit("newMessage", {message, username: user.username, color: user.color});
     })
     
     
