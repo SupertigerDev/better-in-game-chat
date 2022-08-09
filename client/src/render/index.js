@@ -105,12 +105,16 @@ const hideMessages = () => {
 }
 
 
+function sanitize(message) {
+  return message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 const createMessage = (color, username, message) => {
 
   const messageEl = document.createElement("div");
   messageEl.classList.add("message-item");
 
-  messageEl.innerHTML =  `<span class="username" style="color: ${color}">[${username}]: </span><span class="message">${message}</span>`
+  messageEl.innerHTML =  `<span class="username" style="color: ${color}">[${sanitize(username)}]: </span><span class="message">${sanitize(message)}</span>`
 
   logArea.append(messageEl)
 
@@ -120,7 +124,6 @@ const createMessage = (color, username, message) => {
     top: logArea.scrollHeight,
     behavior: 'smooth'
   })
-  
   
 }
 
