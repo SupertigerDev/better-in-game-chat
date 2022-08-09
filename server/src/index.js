@@ -5,8 +5,12 @@ const io = new Server();
 
 io.on("connection", (socket) => {
     console.log("New client connected");
+    socket.broadcast.emit("newMessage", {message: `Someone Joined.`, username: "Server", color: "green"});
 
-    let username = null;
+    let user = {
+      username: "Unnamed",
+      color: null,
+    };
 
 
     socket.on("setUsername", (_username) => {
@@ -14,13 +18,13 @@ io.on("connection", (socket) => {
       username = _username;
     })
 
-    socket.on("createMessage", ({message, username}) => {
-      socket.broadcast.emit("newMessage", {message, username});
+    socket.on("createMessage", ({message, username, color}) => {
+      socket.broadcast.emit("newMessage", {message, username, color});
     })
-
-
+    
+    
     socket.on("disconnect", () => {
-        console.log("Client disconnected");
+      socket.broadcast.emit("newMessage", {message: `${user.username} Left.`, username: "Server", color: "green"});
     });
 });
 io.listen(8080)
