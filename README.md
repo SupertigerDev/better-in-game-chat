@@ -7,11 +7,11 @@ NOTE: this overlay is 10% finished and is in WIP. It currently only works with V
 
 
 
-### What most game chat systems currently:   
+### Most game chat systems currently:   
 - Close on you for no reason   
 - Close when on the loading screen   
-- Chat delay (I hate you Valorant)   
-- Close when you res-pawn
+- Close when you res-pawn   
+- Have a chat delay bug (I hate you Valorant)   
 
 Overwatch doesn't have these issues, and so doesn't this overlay.
 
