@@ -15,8 +15,15 @@ io.on("connection", (socket) => {
 
     socket.on("setUsername", (_username) => {
       console.log("setUsername", _username);
-      username = _username;
+      user.username = _username;
     })
+
+    socket.on("setColor", (_color) => {
+      console.log("setColor", _color);
+      user.color = _color;
+    });
+
+
 
     socket.on("createMessage", ({message}) => {
       socket.broadcast.emit("newMessage", {message, username: user.username, color: user.color});
