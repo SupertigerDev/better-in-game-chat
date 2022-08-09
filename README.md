@@ -1,5 +1,5 @@
-# better-in-game-chat
-Game chat systems suck. This app fixes that. It's a simple, modern, and free chat system overlay for games inspired by Overwatch's chat system.
+# Better In-Game Chat
+Game chat systems suck. This overlay fixes that. It's a simple, modern and free chat system overlay for games inspired by Overwatch's chat system.
 
 NOTE: this overlay is 10% finished and is in WIP. It currently only works with Valorant.
 
@@ -7,15 +7,18 @@ NOTE: this overlay is 10% finished and is in WIP. It currently only works with V
 
 
 
-What most games currently do:   
-• Close on you for no reason   
-• Chat delay (I hate you Valorant)   
-• Close when on the loading screen   
-• Close when you res-pawn   
+### What most game chat systems currently:   
+- Close on you for no reason   
+- Close when on the loading screen   
+- Chat delay (I hate you Valorant)   
+- Close when you res-pawn
 
-Overwatch doesn't these issues, and so doesn't this app.
+Overwatch doesn't have these issues, and so doesn't this overlay.
 
 ## Cons of using this overlay
-• Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant.). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature   
-• When the overlay is opened, the task bar is visible.   
-• Only probably works on Windows (The superior OS).   
+- Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature   
+- When the overlay is opened, the task bar is visible.   
+- Only probably works on Windows (The superior OS).   
+
+## Contribute
+Contributing is most welcome 💖 Submit a PR and I will take a look.
