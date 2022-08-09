@@ -134,6 +134,7 @@ const blur = () => {
 }
 
 let username = null;
+let color = "rgb(241, 134, 255)";
 
 
 const commandHandler = (message) => {
@@ -141,11 +142,40 @@ const commandHandler = (message) => {
   const [command, ...args] = message.split(" ");
 
   if (command === "/username") {
+    if (!socket.connected) {
+      createMessage("red", "Error", `Not connected yet!`);
+      return true;
+    }
     username = args.join(" ");
+    localStorage["username"] = username;
     socket.emit("setUsername", username);
     createMessage("#00ff00", "Server", `Username updated to ${username}!`);
     return true;
   }
+
+  if (command === "/color") {
+    if (!socket.connected) {
+      createMessage("red", "Error", `Not connected yet!`);
+      return true;
+    }
+    color = args.join(" ");
+    localStorage["color"] = color;
+    socket.emit("setColor", color);
+    createMessage("#00ff00", "Server", `Color updated to ${color}!`);
+    return true;
+  }
+
+}
+
+const onEnterPressed = (message) => {
+  const commandHandled = commandHandler(message)
+  if (commandHandled) return;
+  if (!username) {
+    createMessage("orange", "Profile", "Type '/username <username>' to continue.");
+    return;
+  }
+  socket.emit("createMessage", {username, message});
+  createMessage(color, username, message);
 }
 
 
@@ -153,17 +183,7 @@ chatInput.addEventListener("keydown", e => {
   if (e.key === "Enter") {
     const message = chatInput.value.trim();
     if (message) {
-
-      const commandHandled = commandHandler(message)
-      if (!commandHandled) {
-        if (!username) {
-          createMessage("orange", "Profile", "Type '/username <username>' to continue.");
-        } else {
-          socket.emit("createMessage", {username, message});
-          createMessage("rgb(241, 134, 255)", username, message);
-        }
-      };
-
+      onEnterPressed(message);
     }
     e.preventDefault();
     blur();
@@ -189,10 +209,17 @@ createMessage("orange", "Connection", "Connecting to server...");
 
 socket.on("connect", () => {
   username = null;
+  color="rgb(241, 134, 255)"
   createMessage("green", "Connection", "Connected!");
+  if (localStorage["username"]) {
+    username = localStorage["username"];
+    socket.emit("setUsername", username);
+    createMessage("orange", "Tip", "Type '/username <username>' to change your username.");
+    return;
+  }
   createMessage("orange", "Profile", "Type '/username <username>' to continue.");
 
 });
-socket.on("newMessage", ({username, message}) => {
-  createMessage("rgb(241, 134, 255)", username, message);
+socket.on("newMessage", ({username, color, message}) => {
+  createMessage(color, username, message);
 });

@@ -29,7 +29,7 @@ const ready = () => {
     skipTaskbar: true,
     x: 10,
     // y: 450,
-    y: 500,
+    y: 200,
     transparent: true,
     alwaysOnTop: true,
 

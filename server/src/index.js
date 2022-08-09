@@ -9,7 +9,7 @@ io.on("connection", (socket) => {
 
     let user = {
       username: "Unnamed",
-      color: null,
+      color: "rgb(241, 134, 255)",
     };
 
 
