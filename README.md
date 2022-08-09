@@ -13,7 +13,7 @@ What most games currently do:
 • Close when on the loading screen   
 • Close when you res-pawn   
 
-Overwatch doesn't have any single of these issues, and so does this app.
+Overwatch doesn't these issues, and so doesn't this app.
 
 ## Cons of using this overlay
 • Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant.). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature   
