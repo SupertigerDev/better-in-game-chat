@@ -16,6 +16,6 @@ What most games currently do:
 Overwatch doesn't have any single of these issues, and so does this app.
 
 ## Cons of using this overlay
-• Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant.). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature
-• When the overlay is opened, the task bar is visible.
-• Only probably works on Windows (The superior OS).
+• Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant.). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature   
+• When the overlay is opened, the task bar is visible.   
+• Only probably works on Windows (The superior OS).   
