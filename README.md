@@ -1,5 +1,5 @@
 # better-in-game-chat
-Game chat systems suck. This app fixes that. It's a simple, modern, and free chat system overlay for games inspired by Overwatch.
+Game chat systems suck. This app fixes that. It's a simple, modern, and free chat system overlay for games inspired by Overwatch's chat system.
 
 NOTE: this overlay is 10% finished and is in WIP. It currently only works with Valorant.
 
