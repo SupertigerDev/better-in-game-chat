@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w forcefocus"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.0.1",
+    "electron-rebuild": "^3.2.9",
+    "node": "^16.15.0"
+  },
+  "dependencies": {
+    "forcefocus": "^1.1.0",
+    "node-process-windows": "^0.0.2",
+    "uiohook-napi": "^1.2.0"
+  }
+}
