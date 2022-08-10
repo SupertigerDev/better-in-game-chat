@@ -64,6 +64,7 @@ const ready = () => {
 
 
   ipcMain.on("blurWindow", () => {
+    if (window.isDestroyed()) return;
     window.blur();
     window.focus();
     
@@ -98,6 +99,9 @@ const ready = () => {
 
 
 
+  ipcMain.on("exitOverlay", (e) => {
+    app.exit(0);
+  });
   ipcMain.on("setIp", (e, ip) => {
     store.set("ip", ip);
   });

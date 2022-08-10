@@ -149,7 +149,7 @@ const main = async () => {
 
 
     if (command === "/help") {
-      createServerMessage("Available commands: /help, /username, /color, /setX, /setY, /resetPos, /connect, /clear");
+      createServerMessage("Available commands: /help, /username, /color, /setX, /setY, /resetPos, /connect, /clear, /exit");
       return true;
     }
 
@@ -243,6 +243,11 @@ const main = async () => {
     if (command === "/clear") {
       logArea.innerHTML = "";
       createProfileMessage(`Log has been cleared!`);
+      return true;
+    }
+
+    if (command === "/exit") {
+      window.api.exitOverlay();
       return true;
     }
 

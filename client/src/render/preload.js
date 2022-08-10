@@ -24,6 +24,7 @@ contextBridge.exposeInMainWorld('api', {
   
   setIp: (ip) => ipcRenderer.send('setIp', ip),
   getIp: () => ipcRenderer.invoke('getIp'),
+  exitOverlay: () => ipcRenderer.send('exitOverlay'),
 
 
 })
