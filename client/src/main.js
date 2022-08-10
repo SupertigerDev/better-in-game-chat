@@ -37,6 +37,10 @@ const ready = () => {
     },
   });
 
+
+  window.setAlwaysOnTop(true, "level");
+
+
   const values = Object.values(UiohookKey);
   const keys = Object.keys(UiohookKey);
 

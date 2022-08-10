@@ -16,12 +16,8 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 
 ### Cons of using this overlay
 - Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature.   
-- When the overlay is opened, the task bar is visible.   
 - Only probably works on Windows (The superior OS).   
 
-
-### Bugs
-- When clicking outside of a game, the overlay will hide away. To bring it back, click the `#` key.
 
 ### Contribute
 Contributing is most welcome 💖 Submit a PR and I will take a look.
