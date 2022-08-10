@@ -48,6 +48,12 @@ const ready = () => {
     e.name = key;
     window.webContents.send('keydown', e);
   })
+  uIOhook.on('keyup', (e) => {
+    const index = values.indexOf(e.keycode);
+    const key = keys[index];
+    e.name = key;
+    window.webContents.send('keyup', e);
+  })
   uIOhook.start()
 
   ipcMain.on("focusWindow", async() => {
@@ -78,11 +84,19 @@ const ready = () => {
   ipcMain.handle("getUsername", (e) => {
     return store.get("username");
   });
+
   ipcMain.on("setColor", (e, color) => {
     store.set("color", color);
   });
   ipcMain.handle("getColor", (e) => {
     return store.get("color");
+  });
+
+  ipcMain.on("setKeyBind", (e, keyBinds) => {
+    store.set("keybinds", keyBinds);
+  });
+  ipcMain.handle("getKeyBind", (e) => {
+    return store.get("keybinds");
   });
 
 

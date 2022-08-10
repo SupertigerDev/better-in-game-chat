@@ -4,7 +4,6 @@ const chatInput = document.getElementById("chatInput");
 const meElement = document.getElementById("me");
 
 
-const OPEN_CHAT_KEY = "Quote";
 const SERVER_MESSAGE_COLOR = "#baffc9";
 const PROFILE_MESSAGE_COLOR = "#fcc98d";
 const ERROR_MESSAGE_COLOR = "#ff919b";
@@ -14,14 +13,17 @@ const DEFAULT_POS = {
   y: 600
 }
 
-
 const main = async () => {
   let socket = null;
   let username = (await window.api.getUsername()) || null;
   let color = (await window.api.getColor()) || DEFAULT_MESSAGE_COLOR;
+  let keyBinds = (await window.api.getKeyBind()) || ['Enter'];
   let pos = (await window.api.getPos()) || DEFAULT_POS;
   let ip = (await window.api.getIp()) || "ws://localhost:8080"
-
+  
+  let keyBindMode = false;
+  let bindKeys = [];
+  let currentlyPressedKeys = [];
 
   window.api.setPos(pos);
 
@@ -29,15 +31,62 @@ const main = async () => {
   let isFocused = false;
 
   window.api.onKeyDown(e => {
-    if (e.name === OPEN_CHAT_KEY) {
-      onOpenChatPressed()
+
+    if (currentlyPressedKeys[currentlyPressedKeys.length - 1] !== e.name) {
+      currentlyPressedKeys.push(e.name);
+    }
+    if (currentlyPressedKeys[0] === keyBinds[0]) {
+      if (JSON.stringify(currentlyPressedKeys) === JSON.stringify(keyBinds)) {
+        onOpenChatPressed()
+      }
     }
 
     if (e.name === "Escape" && isFocused) {
       blur();
     }
 
+    if (keyBindMode) {
+      if (e.name === "Escape") {
+        keyBindMode = false;
+        bindKeys = [];
+        createErrorMessage("Escape key cannot be bound. Recording ended.");
+        return;
+      }
+
+      if (bindKeys[bindKeys.length - 1] !== e.name) {
+        bindKeys.push(e.name);
+      }
+      if (bindKeys.length > 4) {
+        bindKey();
+      }
+    }
   })
+  
+  window.api.onKeyUp(e => {
+    currentlyPressedKeys = currentlyPressedKeys.filter(key => key !== e.name);
+    if (keyBindMode) {
+      if (currentlyPressedKeys.length === 0) {
+        bindKey();
+      }
+    }
+    
+  })
+
+  const bindKey = () => {
+    if (bindKeys.length === 0) return;
+    keyBindMode = false;
+
+    keyBinds = bindKeys
+    window.api.setKeyBind(bindKeys)
+
+    const keyBindsString = keyBinds.join("+");
+    createProfileMessage(`Bound to: ${keyBindsString}`);
+
+
+
+    bindKeys = [];
+    currentlyPressedKeys = [];
+  }
 
 
   window.api.onFocus(() => {
@@ -129,6 +178,10 @@ const main = async () => {
   }
 
 
+  const keyBindsString = keyBinds.join("+");
+  createProfileMessage(`Press ${keyBindsString} to open chat`);
+
+  const history = createHistory();
 
   const blur = (blurWindow = true) => {
     if (blurWindow) {
@@ -138,6 +191,7 @@ const main = async () => {
     chatInput.value = "";
     hideBackground();
     hideMessages();
+    history.chatClosed();
   }
 
 
@@ -149,7 +203,7 @@ const main = async () => {
 
 
     if (command === "/help") {
-      createServerMessage("Available commands: /help, /username, /color, /setX, /setY, /resetPos, /connect, /clear, /exit");
+      createServerMessage("Available commands: /help, /username, /color, /setX, /setY, /resetPos, /connect, /bindKey, /clear, /exit");
       return true;
     }
 
@@ -240,6 +294,18 @@ const main = async () => {
       return true;
     }
 
+
+    if (command === "/bindKey") {
+
+      createServerMessage(`Key-binds are now being recorded...`);
+      setTimeout(() => {
+        keyBindMode = true;
+      }, 100);
+      return true;
+    }
+
+
+
     if (command === "/clear") {
       logArea.innerHTML = "";
       createProfileMessage(`Log has been cleared!`);
@@ -254,15 +320,20 @@ const main = async () => {
 
   }
 
+
+
+
   const onEnterPressed = (message) => {
     if (message.length > 200) {
       createErrorMessage(`Message is too long!`);
       return;
     }
 
-    if (socket?.connected) {
-      createMessage(color, username, message);
-    }
+
+    createMessage(color, username, message);
+
+    history.add(message);
+    
 
 
     const commandHandled = commandHandler(message)
@@ -291,6 +362,18 @@ const main = async () => {
       e.preventDefault();
       blur();
     }
+
+    // if up arrow is pressed
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      history.upKeyPressed();
+    }
+    // if down arrow is pressed
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      history.downKeyPressed();
+    }
+
     if (chatInput.value.trim().length > 200) {
       e.preventDefault();
     }
@@ -358,6 +441,62 @@ const main = async () => {
   }
 
   connect();
+
+}
+
+
+const createHistory = () => {
+  let history = [];
+  const maxHistory = 10;
+  let historyIndex = 0;
+  let currentMessage = "";
+
+  const add = (message) => {
+    if (history[history.length - 1] === message) return;
+    history.push(message);
+    if (history.length > maxHistory) {
+      history.shift();
+    }
+    historyIndex = history.length;
+  }
+  const chatClosed = () => {
+    historyIndex = history.length;
+    currentMessage = "";
+  }
+
+  const upKeyPressed = () => {
+    if (historyIndex === history.length){
+      currentMessage = chatInput.value;
+    };
+    if (historyIndex === 0) return;
+    if (historyIndex >= history.length + 1) {
+      historyIndex = history.length;
+    }
+    historyIndex--;
+    chatInput.value = history[historyIndex];
+  }
+
+  const downKeyPressed = () => {
+    if (historyIndex >= history.length) return;
+    if (historyIndex === history.length - 1) {
+      historyIndex++;
+      chatInput.value = currentMessage;
+      return;
+    };
+    historyIndex++;
+    chatInput.value = history[historyIndex];
+
+    
+  }
+
+  return {
+    add,
+    chatClosed,
+    upKeyPressed,
+    downKeyPressed
+  }
+
+
 
 }
 

@@ -18,21 +18,28 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 - Some games require you to sign a digital signature to allow full screen overlays (I hate you Valorant). This will require you to play games in borderless full screen mode which can add latency. I don't have the money to buy a signature.   
 - Only probably works on Windows (The superior OS).   
 
+### Features of this overlay
+- Command system
+- No filtering, reporting. You run your own chat server.
+- Custom key-bind to open chat
+- Press up or down to navigate through your messages (Just like a command prompt)
+
 ### How to use
-- To open the chat, press the `#` key.  
+- To open the chat, press the `Enter` key.  
 - To send a message, press the `Enter` key.  
-- To close the chat, press the `Escape` or the `#` key.  
+- To close the chat, press the `Escape` or the `Enter` key.  
 
 ### Commands
-- `/help`
-- `/username <username>`
-- `/color <string>`
-- `/setX <number>`
-- `/setY <number>`
-- `/resetPos`
-- `/connect <string>`
-- `/clear`
-- `/exit`
+- `/help` - Shows this help message.
+- `/username <username>` - set username
+- `/color <string>` - set color of your username
+- `/setX <number>` - set the X position of the overlay
+- `/setY <number>` - Set the Y position of the overlay
+- `/resetPos` - Reset the X and Y position to default.
+- `/connect <string>` - Connect to a specific server by the IP Address.
+- `/clear` - Clear the chat.
+- `/bindKey` - Bind a key to open the chat.
+- `/exit` - Exit the App.
 
 
 ### Contribute

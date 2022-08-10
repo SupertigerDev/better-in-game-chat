@@ -5,7 +5,10 @@ contextBridge.exposeInMainWorld('api', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
+
   onKeyDown: (e) => ipcRenderer.on('keydown', (event, payload)=> e(payload)),
+  onKeyUp: (e) => ipcRenderer.on('keyup', (event, payload)=> e(payload)),
+
   focusWindow: () => ipcRenderer.send('focusWindow'),
   blurWindow: () => ipcRenderer.send('blurWindow'),
 
@@ -20,11 +23,16 @@ contextBridge.exposeInMainWorld('api', {
   
   setPos: (pos) => ipcRenderer.send('setPos', pos),
   getPos: () => ipcRenderer.invoke('getPos'),
+
+  setKeyBind: (keyBinds) => ipcRenderer.send('setKeyBind', keyBinds),
+  getKeyBind: () => ipcRenderer.invoke('getKeyBind'),
   
   
   setIp: (ip) => ipcRenderer.send('setIp', ip),
   getIp: () => ipcRenderer.invoke('getIp'),
   exitOverlay: () => ipcRenderer.send('exitOverlay'),
+
+
 
 
 })
