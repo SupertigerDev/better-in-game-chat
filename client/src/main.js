@@ -8,7 +8,7 @@ const Store = require('electron-store');
 const { windowManager } = require("node-window-manager");
 
 
-const gotTheLock = app.requestSingleInstanceLock(additionalData)
+const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
   app.quit();
