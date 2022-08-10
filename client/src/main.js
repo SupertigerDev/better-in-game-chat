@@ -146,11 +146,6 @@ const ready = () => {
 
   window.loadFile(indexPath);
 
-
-  window.webContents.on("did-frame-finish-load", () => {
-    processWindows.focusWindow({pid: gameProcessId})
-  })
-
 }
 
 app.whenReady().then(ready);
