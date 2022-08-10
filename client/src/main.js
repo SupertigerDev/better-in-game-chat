@@ -8,7 +8,12 @@ const Store = require('electron-store');
 const { windowManager } = require("node-window-manager");
 
 
+const gotTheLock = app.requestSingleInstanceLock(additionalData)
 
+if (!gotTheLock) {
+  app.quit();
+  return;
+}
 
 const store = new Store();
 
@@ -147,5 +152,7 @@ const ready = () => {
   window.loadFile(indexPath);
 
 }
+
+
 
 app.whenReady().then(ready);
