@@ -19,15 +19,15 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 - Only probably works on Windows (The superior OS).   
 
 ### Commands
-- /help
-- /username <username>
-- /color <string>
-- /setX <number>
-- /setY <number>
-- /resetPos
-- /connect <string>
-- /clear
-- /exit
+- `/help`
+- `/username <username>`
+- `/color <string>`
+- `/setX <number>`
+- `/setY <number>`
+- `/resetPos`
+- `/connect <string>`
+- `/clear`
+- `/exit`
 
 
 ### Contribute
