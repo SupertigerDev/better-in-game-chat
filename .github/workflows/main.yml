@@ -22,6 +22,7 @@ jobs:
       - name: install Dependencies
         run: |
           cd client
+          npm install -g node-gyp
           npm ci
       - name: Rebuild native modules
         run: npm run rebuild
