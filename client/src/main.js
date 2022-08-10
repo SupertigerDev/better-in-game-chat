@@ -13,11 +13,14 @@ const { windowManager } = require("node-window-manager");
 const store = new Store();
 
 
-
 const ready = () => {
-
-
+  
+  
   let gameProcessId = null
+
+  const win = windowManager.getActiveWindow();
+  gameProcessId = win.processId
+
 
 
   const window = new BrowserWindow({
@@ -144,7 +147,9 @@ const ready = () => {
   window.loadFile(indexPath);
 
 
-
+  window.webContents.on("did-frame-finish-load", () => {
+    processWindows.focusWindow({pid: gameProcessId})
+  })
 
 }
 
