@@ -10,7 +10,7 @@ body, html {
   color: white;
   overflow: hidden;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Anek Bangla', sans-serif;
 }
 .container {
   display: flex;
@@ -81,7 +81,8 @@ body, html {
 
 
 .message-item {
-  margin-bottom: 10px;
+  line-height: 1.4;
+  
 }
 .message-item .username {
   text-shadow: 1px 1px 0px black;
@@ -95,7 +96,7 @@ body, html {
 }
 
 .message-item.hide-animate {
-  animation: fadeOut 0.2s;
+  animation: fadeOut 3s;
   animation-delay: 5s;
   animation-fill-mode: forwards;
 }
