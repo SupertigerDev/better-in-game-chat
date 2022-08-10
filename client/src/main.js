@@ -33,6 +33,7 @@ const ready = () => {
     height: 300,
     frame: false,
     skipTaskbar: true,
+    focusable: false,
     x: 10,
     y: 600,
     transparent: true,
@@ -80,7 +81,6 @@ const ready = () => {
   ipcMain.on("blurWindow", () => {
     if (window.isDestroyed()) return;
     window.blur();
-    window.focus();
     
     processWindows.focusWindow({pid: gameProcessId})
   });
@@ -150,6 +150,11 @@ const ready = () => {
   const indexPath = path.join(__dirname, "render", "index.html");
 
   window.loadFile(indexPath);
+
+  window.webContents.on("did-frame-finish-load", () => {
+    window.setFocusable(true);
+    window.setSkipTaskbar(true);
+  })
 
 }
 
