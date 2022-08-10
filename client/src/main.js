@@ -26,12 +26,10 @@ const ready = () => {
     frame: false,
     skipTaskbar: true,
     x: 10,
-    // y: 450,
     y: 600,
     transparent: true,
     alwaysOnTop: true,
 
-    
     webPreferences: {
       preload: path.join(__dirname, "render",'preload.js'),
     },
@@ -84,6 +82,28 @@ const ready = () => {
   });
   ipcMain.handle("getColor", (e) => {
     return store.get("color");
+  });
+
+
+
+  ipcMain.on("setPos", (e, pos) => {
+    const newPos = {...store.get("pos"), ...pos};
+    store.set("pos", newPos);
+    window.setPosition(newPos.x, newPos.y);
+  });
+
+  ipcMain.handle("getPos", (e) => {
+    return store.get("pos");
+  });
+
+
+
+  ipcMain.on("setIp", (e, ip) => {
+    store.set("ip", ip);
+  });
+
+  ipcMain.handle("getIp", (e) => {
+    return store.get("ip");
   });
 
 

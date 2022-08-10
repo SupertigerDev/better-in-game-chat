@@ -17,6 +17,13 @@ contextBridge.exposeInMainWorld('api', {
   getUsername: () => ipcRenderer.invoke('getUsername'),
   setColor: (color) => ipcRenderer.send('setColor', color),
   getColor: () => ipcRenderer.invoke('getColor'),
+  
+  setPos: (pos) => ipcRenderer.send('setPos', pos),
+  getPos: () => ipcRenderer.invoke('getPos'),
+  
+  
+  setIp: (ip) => ipcRenderer.send('setIp', ip),
+  getIp: () => ipcRenderer.invoke('getIp'),
 
 
 })
