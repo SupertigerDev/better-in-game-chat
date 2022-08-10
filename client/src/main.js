@@ -27,7 +27,7 @@ const ready = () => {
     skipTaskbar: true,
     x: 10,
     // y: 450,
-    y: 200,
+    y: 600,
     transparent: true,
     alwaysOnTop: true,
 
@@ -64,7 +64,7 @@ const ready = () => {
   ipcMain.on("blurWindow", () => {
     window.blur();
     window.focus();
-
+    
     processWindows.focusWindow({pid: gameProcessId})
   });
 
@@ -83,10 +83,14 @@ const ready = () => {
   });
 
 
+  let isFocused = window.isFocused();
+
   window.on("focus", () => {
+    isFocused = true;
     window.webContents.send("focused")
   })
   window.on("blur", () => {
+    isFocused = false;
     window.webContents.send("blurred")
   })
   

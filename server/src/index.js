@@ -42,6 +42,10 @@ io.on("connection", (socket) => {
 
 
     socket.on("createMessage", ({message}) => {
+      if (message.length > 200) {
+        socket.emit("custom_error", "Message is too long!");
+        return;
+      }
       socket.broadcast.emit("newMessage", {message, username: user.username, color: user.color});
     })
     
@@ -51,9 +55,9 @@ io.on("connection", (socket) => {
     });
 });
 
-setInterval(() => {
-  io.emit("newMessage", {message: "Hello", username: "Fish", color: "red"});
+// setInterval(() => {
+//   io.emit("newMessage", {message: "Hello", username: "Fish", color: "red"});
 
-}, 1000);
+// }, 1000);
 io.listen(8080)
 console.log("Listening on port 8080");

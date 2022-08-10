@@ -27,30 +27,72 @@ body, html {
   padding: 10px;
   flex: 1;
   overflow: auto;
-  
+  background-color: transparent;
+  transition: 0.2s;
 }
+#logArea.show-animate {
+  animation: logFadeIn 0.2s;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes logFadeIn {
+  from {
+    background-color: rgba(0,0,0,0);
+  }
+  to {
+    background-color: rgba(0,0,0,0.4);
+  }
+}
+
 
 #chatArea {
   display: flex;
+  align-items: center;
   opacity: 0;
   border-radius: 4px;
   flex-shrink: 0;
   height: 40px;
   overflow: hidden;
   flex-shrink: 0;
+  background-color: transparent;
+
+  transition: 0.2s;
 }
+
+
+#chatArea.show-animate {
+  animation: chatFadeIn 0.2s;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes chatFadeIn {
+  from {
+    background-color: rgba(0,0,0,0);
+    opacity: 0;
+  }
+  to {
+    background-color: rgba(0,0,0,0.4);
+    opacity: 1;
+  }
+}
+
+
 
 .message-item {
   margin-bottom: 10px;
 }
 .message-item .username {
-  text-shadow: 1px -1px 0px black;
+  text-shadow: 1px 1px 0px black;
 }
 .message-item .message {
   color: white;
-  text-shadow: 1px -1px 0px black;
+  text-shadow: 1px 1px 0px black;
 }
-
+.message-item {
+  transition: 0.2s;
+}
 
 .message-item.hide-animate {
   animation: fadeOut 0.2s;
@@ -73,11 +115,22 @@ body, html {
   color: white;
   border: none;
   outline: none;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-right: 10px;
+  text-shadow: 1px 1px 0px black;
+  height: 100%;
 }
 
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+
+#me {
+  display: none;
+  padding-left: 10px;
+  flex-shrink: 0;
+  text-shadow: 1px 1px 0px black;
+
 }

@@ -1,13 +1,14 @@
 const logArea = document.getElementById("logArea");
 const chatArea = document.getElementById("chatArea");
 const chatInput = document.getElementById("chatInput");
+const meElement = document.getElementById("me");
 
 
 const OPEN_CHAT_KEY = "Quote";
 const SERVER_MESSAGE_COLOR = "#baffc9";
-const PROFILE_MESSAGE_COLOR = "#ffdfba";
-const ERROR_MESSAGE_COLOR = "#ffb3ba";
-const DEFAULT_MESSAGE_COLOR = "#b19cd9"
+const PROFILE_MESSAGE_COLOR = "#fcc98d";
+const ERROR_MESSAGE_COLOR = "#ff919b";
+const DEFAULT_MESSAGE_COLOR = "#fa9be1"
 
 
 const main = async () => {
@@ -46,38 +47,22 @@ const main = async () => {
 
   const hideBackground = () => {
 
-    const options = {
-      duration: 100,
-      fill: 'forwards',
-      easing: 'ease-in-out'
-    }
+    if (!logArea.classList.contains("show-animate")) return;
+    logArea.classList.remove("show-animate");
 
-    logArea.animate([
-      { background: 'rgba(0,0,0,0.4)' },
-      { background: 'rgba(0,0,0,0)' },
-    ], options)
-    chatArea.animate([
-      { background: 'rgba(0,0,0,0)', opacity: 1 },
-      { background: 'rgba(0,0,0,0.4)', opacity: 0 },
-    ], options)
+    if (!chatArea.classList.contains("show-animate")) return;
+    chatArea.classList.remove("show-animate");
+
   }
   const showBackground = () => {
-    const options = {
-      duration: 100,
-      fill: 'forwards',
-      easing: 'ease-in-out'
-    }
 
-    logArea.animate([
-      { background: 'rgba(0,0,0,0)' },
-      { background: 'rgba(0,0,0,0.4)' },
-    ], options)
-
-    chatArea.animate([
-      { background: 'rgba(0,0,0,0)', opacity: 0 },
-      { background: 'rgba(0,0,0,0.4)', opacity: 1 },
-    ], options)
+    if (logArea.classList.contains("show-animate")) return;
+    logArea.classList.add("show-animate");
+    
+    if (chatArea.classList.contains("show-animate")) return;
+    chatArea.classList.add("show-animate");
   }
+
   const hideMessage = (element) => {
     element.classList.add("hide-animate")
   }
@@ -126,13 +111,13 @@ const main = async () => {
 
 
   const createServerMessage = (message) => {
-    createMessage("#00ff00", "Server", message);
+    createMessage(SERVER_MESSAGE_COLOR, "Server", message);
   }
   const createProfileMessage = (message) => {
-    createMessage("#00ff00", "Profile", message);
+    createMessage(PROFILE_MESSAGE_COLOR, "Profile", message);
   }
   const createErrorMessage = (message) => {
-    createMessage("red", "Error", message);
+    createMessage(ERROR_MESSAGE_COLOR, "Error", message);
   }
 
 
@@ -172,6 +157,7 @@ const main = async () => {
       username = _username;
       socket.emit("setUsername", _username);
       createProfileMessage(`Username updated to ${_username}!`);
+      setMe();
       return true;
     }
 
@@ -193,12 +179,30 @@ const main = async () => {
       color = _color;
       socket.emit("setColor", _color);
       createProfileMessage(`Color updated to ${_color}!`);
+      setMe();
+      return true;
+    }
+
+    if (command === "/resetColor") {
+      if (!socket.connected) {
+        createErrorMessage(`Not connected yet!`);
+        return true;
+      }
+      window.api.setColor(DEFAULT_MESSAGE_COLOR);
+      color = DEFAULT_MESSAGE_COLOR;
+      socket.emit("setColor", DEFAULT_MESSAGE_COLOR);
+      createProfileMessage(`Color has been reset!`);
+      setMe();
       return true;
     }
 
   }
 
   const onEnterPressed = (message) => {
+    if (message.length > 200) {
+      createErrorMessage(`Message is too long!`);
+      return;
+    }
     const commandHandled = commandHandler(message)
     if (commandHandled) return;
     if (!username) {
@@ -219,6 +223,9 @@ const main = async () => {
       e.preventDefault();
       blur();
     }
+    if (chatInput.value.trim().length > 200) {
+      e.preventDefault();
+    }
   })
 
   const onOpenChatPressed = () => {
@@ -234,6 +241,19 @@ const main = async () => {
 
 
 
+  const setMe = () => {
+    meElement.style.display = "none";
+    if (!socket.connected) return;
+    if (!username) return;
+    if (color) {
+      meElement.style.color = color;
+    }
+    meElement.innerHTML = `[${username}]:`;
+    meElement.style.display = "block";
+  }
+
+
+
   createServerMessage("Connecting to server...");
 
 
@@ -244,6 +264,7 @@ const main = async () => {
     if (username) {
       socket.emit("setUsername", username);
       createProfileMessage("Type '/username <username>' to change your username.");
+      setMe();
       return;
     }
     createProfileMessage("Type '/username <username>' to continue.");
