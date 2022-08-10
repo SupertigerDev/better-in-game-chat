@@ -23,7 +23,6 @@ body, html {
 
 
 #logArea {
-  background-color: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   padding: 10px;
   flex: 1;
@@ -33,7 +32,7 @@ body, html {
 
 #chatArea {
   display: flex;
-  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
   border-radius: 4px;
   flex-shrink: 0;
   height: 40px;
@@ -50,6 +49,22 @@ body, html {
 .message-item .message {
   color: white;
   text-shadow: 1px -1px 0px black;
+}
+
+
+.message-item.hide-animate {
+  animation: fadeOut 0.2s;
+  animation-delay: 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 #chatInput {

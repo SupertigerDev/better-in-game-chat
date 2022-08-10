@@ -4,23 +4,21 @@ const {BrowserWindow, app, globalShortcut} = require("electron");
 const path = require("path");
 const { ipcMain } = require('electron')
 const processWindows = require("node-process-windows");
+const Store = require('electron-store');
+const { windowManager } = require("node-window-manager");
 
+
+
+
+const store = new Store();
 
 
 
 const ready = () => {
 
 
-  let valProcess = null
+  let gameProcessId = null
 
-  processWindows.getProcesses(function(err, processes) {
-    processes.forEach(function (p) {
-        if (p.processName === "VALORANT-Win64-Shipping") {
-          valProcess = p;
-            console.log("VALORANT is running");
-        }
-    });
-  });
 
   const window = new BrowserWindow({
     width: 400,
@@ -50,13 +48,16 @@ const ready = () => {
   })
   uIOhook.start()
 
-  ipcMain.on("focusWindow", () => {
+  ipcMain.on("focusWindow", async() => {
+
+
+    const win = windowManager.getActiveWindow();
+    gameProcessId = win.processId
+
     window.show();
-    // try {
-      forceFocus.focusWindow(window);
-    // } catch(e) {
-    //   console.log(e)
-    // }
+    forceFocus.focusWindow(window);
+      
+
   });
 
 
@@ -64,10 +65,23 @@ const ready = () => {
     window.blur();
     window.focus();
 
-    processWindows.focusWindow(valProcess)
-
-
+    processWindows.focusWindow({pid: gameProcessId})
   });
+
+
+  ipcMain.on("setUsername", (e, username) => {
+    store.set("username", username)
+  })
+  ipcMain.handle("getUsername", (e) => {
+    return store.get("username");
+  });
+  ipcMain.on("setColor", (e, color) => {
+    store.set("color", color);
+  });
+  ipcMain.handle("getColor", (e) => {
+    return store.get("color");
+  });
+
 
   window.on("focus", () => {
     window.webContents.send("focused")

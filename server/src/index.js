@@ -5,20 +5,36 @@ const io = new Server();
 
 io.on("connection", (socket) => {
     console.log("New client connected");
-    socket.broadcast.emit("newMessage", {message: `Someone Joined.`, username: "Server", color: "green"});
+    socket.broadcast.emit("userJoined");
 
     let user = {
       username: "Unnamed",
-      color: "rgb(241, 134, 255)",
+      color: null,
     };
 
 
     socket.on("setUsername", (_username) => {
+      if (_username.length > 20) {
+        socket.emit("custom_error", "Username is too long!");
+        return;
+      }
+      if (_username.length <= 0) {
+        socket.emit("custom_error", "Username is too short!");
+        return;
+      }
       console.log("setUsername", _username);
       user.username = _username;
     })
 
     socket.on("setColor", (_color) => {
+      if (_color.length > 20) {
+        socket.emit("custom_error", "Color is too long!");
+        return;
+      }
+      if (_color.length <= 0) {
+        socket.emit("custom_error", "Color is too short!");
+        return;
+      }
       console.log("setColor", _color);
       user.color = _color;
     });
@@ -31,8 +47,13 @@ io.on("connection", (socket) => {
     
     
     socket.on("disconnect", () => {
-      socket.broadcast.emit("newMessage", {message: `${user.username} Left.`, username: "Server", color: "green"});
+      socket.broadcast.emit("userLeft", user.username);
     });
 });
+
+setInterval(() => {
+  io.emit("newMessage", {message: "Hello", username: "Fish", color: "red"});
+
+}, 1000);
 io.listen(8080)
 console.log("Listening on port 8080");

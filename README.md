@@ -1,7 +1,7 @@
 # Better In-Game Chat Overlay
 Game chat systems suck. This overlay fixes that. It's a simple, modern and free chat system overlay for games. Inspired by the game that currently has the best chat system in the world, Overwatch.
 
-NOTE: this overlay is 10% finished and is in WIP. It currently only works with Valorant.
+NOTE: this overlay is 10% finished and is in WIP.
 
 ![Example](/preview.png)
 

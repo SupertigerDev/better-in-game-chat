@@ -16,8 +16,10 @@
     "node": "^16.15.0"
   },
   "dependencies": {
+    "electron-store": "^8.1.0",
     "forcefocus": "^1.1.0",
     "node-process-windows": "^0.0.2",
+    "node-window-manager": "^2.2.4",
     "uiohook-napi": "^1.2.0"
   }
 }

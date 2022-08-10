@@ -1,5 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
+
 contextBridge.exposeInMainWorld('api', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
@@ -10,4 +11,12 @@ contextBridge.exposeInMainWorld('api', {
 
   onFocus: (e) => ipcRenderer.on('focused', e),
   onBlur: (e) => ipcRenderer.on('blurred', e),
+
+
+  setUsername: (username) => ipcRenderer.send('setUsername', username),
+  getUsername: () => ipcRenderer.invoke('getUsername'),
+  setColor: (color) => ipcRenderer.send('setColor', color),
+  getColor: () => ipcRenderer.invoke('getColor'),
+
+
 })
