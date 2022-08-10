@@ -19,9 +19,9 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 - Only probably works on Windows (The superior OS).   
 
 ### How to use
-To open the chat, press the `#` key.  
-To send a message, press the `Enter` key.  
-To close the chat, press the `Escape` or the `#` key.  
+- To open the chat, press the `#` key.  
+- To send a message, press the `Enter` key.  
+- To close the chat, press the `Escape` or the `#` key.  
 
 ### Commands
 - `/help`
