@@ -147,15 +147,20 @@ const main = async () => {
 
   const createMessage = (color, username, message) => {
 
-    const messageEl = document.createElement("div");
-    messageEl.classList.add("message-item");
+    const messageItemEl = document.createElement("div");
+    messageItemEl.classList.add("message-item");
 
-    messageEl.innerHTML = `<span class="username" style="color: ${color}">[${sanitize(username)}]: </span><span class="message">${sanitize(message)}</span>`
 
-    logArea.append(messageEl)
+    const usernameEL = username && `<span class="username" style="color: ${color}">[${sanitize(username)}]: </span>`;
+    const messageEl = `<span class="message">${sanitize(message)}</span>`
+
+
+    messageItemEl.innerHTML = `${usernameEL}${messageEl}`;
+
+    logArea.append(messageItemEl)
 
     if (!isFocused) {
-      hideMessage(messageEl);
+      hideMessage(messageItemEl);
     }
 
     logArea.scrollTo({
@@ -287,7 +292,11 @@ const main = async () => {
     }
 
     if (command === "/connect") {
-      const _ip = args[0]
+      const _ip = args[0]?.trim()
+      if (!_ip) {
+        createErrorMessage(`No IP provided!`);
+        return true;
+      }
       ip = _ip;
       window.api.setIp(_ip);
       connect();
@@ -330,7 +339,7 @@ const main = async () => {
     }
 
 
-    createMessage(color, username, message);
+    createMessage(color, username || "", message);
 
     history.add(message);
     
@@ -438,6 +447,11 @@ const main = async () => {
     socket.on("custom_error", (message) => {
       createErrorMessage(message);
     });
+
+    socket.on("disconnect", () => {
+      createServerMessage("Disconnected from server. Trying to reconnect...");
+    })
+
   }
 
   connect();
