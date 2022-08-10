@@ -20,6 +20,8 @@ jobs:
           node-version: 16
 
       - name: install Dependencies
-        run: npm ci
+        run: |
+          cd client
+          npm ci
       - name: Rebuild native modules
         run: npm run rebuild
