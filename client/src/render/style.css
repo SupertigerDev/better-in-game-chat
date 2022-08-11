@@ -89,7 +89,8 @@ body, html {
 .message-item .message {
   color: white;
   text-shadow: 1px 1px 0px black;
-  line-break: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
 }
 .message-item {
   transition: 0.2s;
