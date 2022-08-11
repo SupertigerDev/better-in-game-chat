@@ -134,8 +134,18 @@ const ready = () => {
     store.set("ip", ip);
   });
 
+  ipcMain.on("setIgnoreMouseEvents", (e, ignore) => {
+    window.setIgnoreMouseEvents(ignore);
+  });
+
   ipcMain.handle("getIp", (e) => {
     return store.get("ip");
+  });
+  ipcMain.handle("getCurrentPos", (e) => {
+    return {
+      x: window.getPosition()[0],
+      y: window.getPosition()[1]
+    }
   });
 
 

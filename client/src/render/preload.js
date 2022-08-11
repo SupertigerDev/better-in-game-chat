@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('api', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
+  
 
   onKeyDown: (e) => ipcRenderer.on('keydown', (event, payload)=> e(payload)),
   onKeyUp: (e) => ipcRenderer.on('keyup', (event, payload)=> e(payload)),
@@ -16,6 +17,9 @@ contextBridge.exposeInMainWorld('api', {
   onFocus: (e) => ipcRenderer.on('focused', e),
   onBlur: (e) => ipcRenderer.on('blurred', e),
 
+
+  setIgnoreMouseEvents: (username) => ipcRenderer.send('setIgnoreMouseEvents', username),
+  getCurrentPos: (e) => ipcRenderer.invoke('getCurrentPos', e),
 
   setUsername: (username) => ipcRenderer.send('setUsername', username),
   getUsername: () => ipcRenderer.invoke('getUsername'),

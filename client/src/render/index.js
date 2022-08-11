@@ -233,8 +233,9 @@ const main = async () => {
       "/help": "Shows this message",
       "/username <string>": "Changes your username",
       "/color <string>": "Changes your color",
-      "/setX <number>": "Sets your X position",
-      "/setY <number>": "Sets your Y position",
+      "/setPos": "Set window position",
+      "/setX <number>": "Manually set X position",
+      "/setY <number>": "Manually set Y position",
       "/resetPos": "Resets your position to default",
       "/connect <string>": "Connects to a server",
       "/bindKeys <string>": "Binds keys to open chat",
@@ -336,14 +337,14 @@ const main = async () => {
     }
 
     if (command === "/setX") {
-      const x = parseInt(args[0]);
+      const x = parseInt(args[0]) || 0;
       pos.x = x;
       window.api.setPos(pos);
       createProfileMessage(`X position updated!`);
       return true;
     }
     if (command === "/setY") {
-      const y = parseInt(args[0]);
+      const y = parseInt(args[0]) || 0;
       pos.y = y;
       window.api.setPos(pos);
       createProfileMessage(`Y position updated!`);
@@ -391,6 +392,40 @@ const main = async () => {
       window.api.exitOverlay();
       return true;
     }
+
+    if (command === "/setPos") {
+      window.api.setIgnoreMouseEvents(false);
+      const moveElement = document.createElement("div");
+      // set id
+      moveElement.id = "set-pos-overlay";
+      
+      moveElement.innerHTML = `
+      <div class="title">Drag the box to move the window</div>
+      <div class="box"></div>
+      <button id="doneSetPos">Done</button>
+      <button id="cancelSetPos">Cancel</button>
+      `
+      document.body.append(moveElement);
+      
+      
+      document.getElementById("doneSetPos").addEventListener("click", async() => {
+        const currentPosition = await window.api.getCurrentPos();
+        window.api.setPos(currentPosition);
+        pos = currentPosition;
+        window.api.setIgnoreMouseEvents(true);
+        createProfileMessage(`Position has been set!`);
+        moveElement.remove();
+      })
+      document.getElementById("cancelSetPos").addEventListener("click", async() => {
+        window.api.setIgnoreMouseEvents(true);
+        moveElement.remove();
+      })
+
+
+
+      return true;
+    }
+
 
 
   }

@@ -158,3 +158,27 @@ body, html {
 .help-description {
   color: rgb(192, 192, 192);
 }
+
+#set-pos-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  background-color: black;
+  border-radius: 4px;
+  inset: 0;
+}
+
+#set-pos-overlay .box {
+  flex-shrink: 0;
+  height: 30px;
+  width: 30px;
+  background-color: rgb(204, 204, 204);
+  border-radius: 4px;
+  margin: 10px;
+  -webkit-app-region: drag;
+}
+#set-pos-overlay button {
+  margin-bottom: 10px;
+}
