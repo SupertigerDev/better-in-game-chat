@@ -446,9 +446,6 @@ const main = async () => {
       history.downKeyPressed();
     }
 
-    if (chatInput.value.trim().length > 200) {
-      e.preventDefault();
-    }
   })
 
   const onOpenChatPressed = () => {
