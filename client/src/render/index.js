@@ -267,10 +267,6 @@ const main = async () => {
     clampMessages();
   }
 
-setTimeout(() => {
-  createHelpMessage();
-}, 1000);
-
 
   const commandHandler = (message) => {
 
