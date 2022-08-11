@@ -3,7 +3,7 @@ const chatArea = document.getElementById("chatArea");
 const chatInput = document.getElementById("chatInput");
 const meElement = document.getElementById("me");
 
-
+const MAX_LOG_LENGTH = 50;
 const SERVER_MESSAGE_COLOR = "#baffc9";
 const PROFILE_MESSAGE_COLOR = "#fcc98d";
 const ERROR_MESSAGE_COLOR = "#ff919b";
@@ -11,6 +11,11 @@ const DEFAULT_MESSAGE_COLOR = "#fa9be1"
 const DEFAULT_POS = {
   x: 10,
   y: 600
+}
+
+
+window.onerror = (msg, url, line, col, error) => {
+  alert("error happened", message)
 }
 
 const main = async () => {
@@ -61,6 +66,19 @@ const main = async () => {
       }
     }
   })
+
+  window.api.onMouseWheel(e => {
+    // up is -1, down is 1
+    const {rotation} = e
+    if (rotation === 1) {
+      logArea.scrollTop += 20;
+    }
+    if (rotation === -1) {
+      logArea.scrollTop -= 20;
+    }
+    
+  });
+
   
   window.api.onKeyUp(e => {
     currentlyPressedKeys = currentlyPressedKeys.filter(key => key !== e.name);
@@ -145,6 +163,14 @@ const main = async () => {
     return message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
+
+  const clampMessages = () => {
+    if (logArea.childNodes.length > MAX_LOG_LENGTH) {
+      logArea.childNodes[0].remove();
+    }
+  }
+
+
   const createMessage = (color, username, message) => {
 
     const messageItemEl = document.createElement("div");
@@ -163,12 +189,15 @@ const main = async () => {
       hideMessage(messageItemEl);
     }
 
+    clampMessages();
     logArea.scrollTo({
       top: logArea.scrollHeight,
       behavior: 'smooth'
     })
 
+
   }
+
 
 
 
@@ -192,14 +221,63 @@ const main = async () => {
     if (blurWindow) {
       window.api.blurWindow();
     }
+    logArea.scrollTo({
+      top: logArea.scrollHeight,
+      behavior: 'smooth'
+    })
     chatInput.blur();
     chatInput.value = "";
     hideBackground();
     hideMessages();
     history.chatClosed();
+
   }
 
 
+
+  const createHelpMessage = () => {
+
+    const commandDescriptions = {
+      "/help": "Shows this message",
+      "/username <string>": "Changes your username",
+      "/color <string>": "Changes your color",
+      "/setX <number>": "Sets your X position",
+      "/setY <number>": "Sets your Y position",
+      "/resetPos": "Resets your position to default",
+      "/connect <string>": "Connects to a server",
+      "/bindKeys <string>": "Binds keys to open chat",
+      "/clear": "Clears the chat",
+      "/exit": "Exits the chat",
+    }
+
+    const helpElement = document.createElement("div");
+    helpElement.classList.add("help-message");
+    helpElement.innerHTML = `<span class="help-message-header">Commands:</span>`;
+    Object.keys(commandDescriptions).forEach(command => {
+      const description = commandDescriptions[command];
+      const helpItemEl = document.createElement("div");
+      helpItemEl.classList.add("help-item");
+      helpItemEl.innerHTML = `<span class="help-command">${sanitize(command)}</span> <span class="help-description">${description}</span>`;
+      helpElement.append(helpItemEl);
+    });
+
+    logArea.append(helpElement)
+
+    if (!isFocused) {
+      hideMessage(helpElement);
+    }
+
+    logArea.scrollTo({
+      top: logArea.scrollHeight,
+      behavior: 'smooth'
+    })
+
+    clampMessages();
+  }
+
+setTimeout(() => {
+  createHelpMessage();
+}, 1000);
 
 
   const commandHandler = (message) => {
@@ -208,7 +286,7 @@ const main = async () => {
 
 
     if (command === "/help") {
-      createServerMessage("Available commands: /help, /username, /color, /setX, /setY, /resetPos, /connect, /bindKey, /clear, /exit");
+      createHelpMessage();
       return true;
     }
 

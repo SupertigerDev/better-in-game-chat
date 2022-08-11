@@ -1,6 +1,5 @@
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
   color: rgb(207, 207, 207);
-  opacity: 1; /* Firefox */
 }
 
 body, html {
@@ -26,15 +25,15 @@ body, html {
   border-radius: 4px;
   padding: 10px;
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   background-color: transparent;
   transition: 0.2s;
+  
 }
 #logArea.show-animate {
   animation: logFadeIn 0.2s;
   animation-fill-mode: forwards;
 }
-
 
 @keyframes logFadeIn {
   from {
@@ -90,12 +89,13 @@ body, html {
 .message-item .message {
   color: white;
   text-shadow: 1px 1px 0px black;
+  line-break: anywhere;
 }
 .message-item {
   transition: 0.2s;
 }
 
-.message-item.hide-animate {
+#logArea div.hide-animate {
   animation: fadeOut 3s;
   animation-delay: 5s;
   animation-fill-mode: forwards;
@@ -123,10 +123,6 @@ body, html {
 }
 
 
-::-webkit-scrollbar {
-  display: none;
-}
-
 
 #me {
   display: none;
@@ -134,4 +130,30 @@ body, html {
   flex-shrink: 0;
   text-shadow: 1px 1px 0px black;
 
+}
+
+
+.help-message {
+  line-height: 1.5;
+  font-size: 12px;
+}
+.help-item {
+  display: flex;
+  
+}
+
+.help-command {
+  display: flex;
+  background-color: rgb(37, 37, 37);
+  border-radius: 4px;
+  overflow: hidden;
+  line-height: 1;
+  margin-bottom: 2px;
+  height: 15px;
+  padding: 2px;
+  margin-right: 4px;
+
+}
+.help-description {
+  color: rgb(192, 192, 192);
 }

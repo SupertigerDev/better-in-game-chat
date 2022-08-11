@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('api', {
 
   onKeyDown: (e) => ipcRenderer.on('keydown', (event, payload)=> e(payload)),
   onKeyUp: (e) => ipcRenderer.on('keyup', (event, payload)=> e(payload)),
+  onMouseWheel: (e) => ipcRenderer.on('wheel', (event, payload)=> e(payload)),
 
   focusWindow: () => ipcRenderer.send('focusWindow'),
   blurWindow: () => ipcRenderer.send('blurWindow'),

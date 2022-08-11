@@ -46,7 +46,7 @@ const ready = () => {
 
 
   window.setAlwaysOnTop(true, "level");
-
+  let isFocused = window.isFocused();
 
   const values = Object.values(UiohookKey);
   const keys = Object.keys(UiohookKey);
@@ -63,6 +63,12 @@ const ready = () => {
     e.name = key;
     window.webContents.send('keyup', e);
   })
+
+  uIOhook.on("wheel", e => {
+    if (!isFocused) return;
+    window.webContents.send("wheel", e);
+  });
+
   uIOhook.start()
 
   ipcMain.on("focusWindow", async() => {
@@ -133,7 +139,7 @@ const ready = () => {
   });
 
 
-  let isFocused = window.isFocused();
+
 
   window.on("focus", () => {
     isFocused = true;

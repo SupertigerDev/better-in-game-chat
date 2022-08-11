@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
+    "dev": "nodemon --watch . --exec \"electron .\"",
     "rebuild": "electron-rebuild -f -w forcefocus",
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
@@ -29,7 +30,8 @@
   "devDependencies": {
     "electron": "^20.0.1",
     "electron-builder": "^23.3.3",
-    "electron-rebuild": "^3.2.9"
+    "electron-rebuild": "^3.2.9",
+    "nodemon": "^2.0.19"
   },
   "dependencies": {
     "electron-store": "^8.1.0",
