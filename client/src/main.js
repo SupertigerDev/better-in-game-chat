@@ -162,6 +162,7 @@ const ready = () => {
   
 
   window.setIgnoreMouseEvents(true);
+  // window.webContents.openDevTools()
 
   const indexPath = path.join(__dirname, "render", "index.html");
 

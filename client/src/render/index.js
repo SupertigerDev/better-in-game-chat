@@ -1,7 +1,7 @@
-const logArea = document.getElementById("logArea");
-const chatArea = document.getElementById("chatArea");
-const chatInput = document.getElementById("chatInput");
-const meElement = document.getElementById("me");
+import * as electronApi from './ElectronApi.js'
+
+import {chatArea, chatInput, logArea, meElement} from './Elements.js';
+
 
 const MAX_LOG_LENGTH = 50;
 const SERVER_MESSAGE_COLOR = "#baffc9";
@@ -18,24 +18,25 @@ window.onerror = (msg, url, line, col, error) => {
   alert("error happened", message)
 }
 
+
 const main = async () => {
   let socket = null;
-  let username = (await window.api.getUsername()) || null;
-  let color = (await window.api.getColor()) || DEFAULT_MESSAGE_COLOR;
-  let keyBinds = (await window.api.getKeyBind()) || ['Enter'];
-  let pos = (await window.api.getPos()) || DEFAULT_POS;
-  let ip = (await window.api.getIp()) || "ws://localhost:8080"
+  let username = (await electronApi.getUsername()) || null;
+  let color = (await electronApi.getColor()) || DEFAULT_MESSAGE_COLOR;
+  let keyBinds = (await electronApi.getKeyBinds()) || ['Enter'];
+  let pos = (await electronApi.getPos()) || DEFAULT_POS;
+  let ip = (await electronApi.getIp()) || "ws://localhost:8080"
   
   let keyBindMode = false;
   let bindKeys = [];
   let currentlyPressedKeys = [];
 
-  window.api.setPos(pos);
+  electronApi.setPos(pos);
 
 
   let isFocused = false;
 
-  window.api.onKeyDown(e => {
+  electronApi.onKeyDown(e => {
 
     if (currentlyPressedKeys[currentlyPressedKeys.length - 1] !== e.name) {
       currentlyPressedKeys.push(e.name);
@@ -67,7 +68,7 @@ const main = async () => {
     }
   })
 
-  window.api.onMouseWheel(e => {
+  electronApi.onMouseWheel(e => {
     // up is -1, down is 1
     const {rotation} = e
     if (rotation === 1) {
@@ -80,7 +81,7 @@ const main = async () => {
   });
 
   
-  window.api.onKeyUp(e => {
+  electronApi.onKeyUp(e => {
     currentlyPressedKeys = currentlyPressedKeys.filter(key => key !== e.name);
     if (keyBindMode) {
       if (currentlyPressedKeys.length === 0) {
@@ -95,7 +96,7 @@ const main = async () => {
     keyBindMode = false;
 
     keyBinds = bindKeys
-    window.api.setKeyBind(bindKeys)
+    electronApi.setKeyBind(bindKeys)
 
     const keyBindsString = keyBinds.join("+");
     createProfileMessage(`Bound to: ${keyBindsString}`);
@@ -107,11 +108,11 @@ const main = async () => {
   }
 
 
-  window.api.onFocus(() => {
+  electronApi.onFocus(() => {
     isFocused = true;
   })
 
-  window.api.onBlur(() => {
+  electronApi.onBlur(() => {
     isFocused = false;
     blur(false)
   });
@@ -213,7 +214,7 @@ const main = async () => {
 
   const blur = (blurWindow = true) => {
     if (blurWindow) {
-      window.api.blurWindow();
+      electronApi.blurWindow();
     }
     logArea.scrollTo({
       top: logArea.scrollHeight,
@@ -233,6 +234,7 @@ const main = async () => {
       "/help": "Shows this message",
       "/username <string>": "Changes your username",
       "/color <string>": "Changes your color",
+      "/resetColor": "Reset your color to default",
       "/setPos": "Set window position",
       "/setX <number>": "Manually set X position",
       "/setY <number>": "Manually set Y position",
@@ -293,7 +295,7 @@ const main = async () => {
         createErrorMessage(`Username is too short!`);
         return true;
       }
-      window.api.setUsername(_username);
+      electronApi.setUsername(_username);
       username = _username;
       socket?.emit("setUsername", _username);
       createProfileMessage(`Username updated to ${_username}!`);
@@ -306,7 +308,7 @@ const main = async () => {
         createErrorMessage(`Not connected yet!`);
         return true;
       }
-      _color = args.join(" ").trim();
+      let _color = args.join(" ").trim();
       if (_color.length > 20) {
         createErrorMessage(`Color is too long!`);
         return true;
@@ -315,7 +317,7 @@ const main = async () => {
         createErrorMessage("Color is too short!");
         return true;
       }
-      window.api.setColor(_color);
+      electronApi.setColor(_color);
       color = _color;
       socket?.emit("setColor", _color);
       createProfileMessage(`Color updated to ${_color}!`);
@@ -328,7 +330,7 @@ const main = async () => {
         createErrorMessage(`Not connected yet!`);
         return true;
       }
-      window.api.setColor(DEFAULT_MESSAGE_COLOR);
+      electronApi.setColor(DEFAULT_MESSAGE_COLOR);
       color = DEFAULT_MESSAGE_COLOR;
       socket?.emit("setColor", DEFAULT_MESSAGE_COLOR);
       createProfileMessage(`Color has been reset!`);
@@ -339,21 +341,21 @@ const main = async () => {
     if (command === "/setX") {
       const x = parseInt(args[0]) || 0;
       pos.x = x;
-      window.api.setPos(pos);
+      electronApi.setPos(pos);
       createProfileMessage(`X position updated!`);
       return true;
     }
     if (command === "/setY") {
       const y = parseInt(args[0]) || 0;
       pos.y = y;
-      window.api.setPos(pos);
+      electronApi.setPos(pos);
       createProfileMessage(`Y position updated!`);
       return true;
     }
 
     if (command === "/resetPos") {
       pos = DEFAULT_POS;
-      window.api.setPos(pos);
+      electronApi.setPos(pos);
       createProfileMessage(`Position has been reset!`);
       return true;
     }
@@ -365,7 +367,7 @@ const main = async () => {
         return true;
       }
       ip = _ip;
-      window.api.setIp(_ip);
+      electronApi.setIp(_ip);
       connect();
       return true;
     }
@@ -389,12 +391,12 @@ const main = async () => {
     }
 
     if (command === "/exit") {
-      window.api.exitOverlay();
+      electronApi.exitOverlay();
       return true;
     }
 
     if (command === "/setPos") {
-      window.api.setIgnoreMouseEvents(false);
+      electronApi.setIgnoreMouseEvents(false);
       const moveElement = document.createElement("div");
       // set id
       moveElement.id = "set-pos-overlay";
@@ -409,15 +411,15 @@ const main = async () => {
       
       
       document.getElementById("doneSetPos").addEventListener("click", async() => {
-        const currentPosition = await window.api.getCurrentPos();
-        window.api.setPos(currentPosition);
+        const currentPosition = await electronApi.getCurrentPos();
+        electronApi.setPos(currentPosition);
         pos = currentPosition;
-        window.api.setIgnoreMouseEvents(true);
+        electronApi.setIgnoreMouseEvents(true);
         createProfileMessage(`Position has been set!`);
         moveElement.remove();
       })
       document.getElementById("cancelSetPos").addEventListener("click", async() => {
-        window.api.setIgnoreMouseEvents(true);
+        electronApi.setIgnoreMouseEvents(true);
         moveElement.remove();
       })
 
@@ -490,7 +492,7 @@ const main = async () => {
     }
     showBackground();
     showMessages();
-    window.api.focusWindow();
+    electronApi.focusWindow();
     chatInput.focus();
   }
 
