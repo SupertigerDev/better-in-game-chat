@@ -104,7 +104,7 @@ const getCurrentPos = window.api.getCurrentPos;
  * Store key-binds
  * @type {(binds: string[]) => void})}
  */
-const setKeyBind = window.api.setKeyBind;
+const setKeyBinds = window.api.setKeyBinds;
 
 
 /**
@@ -155,7 +155,7 @@ export {
   setColor,
   setIgnoreMouseEvents,
   setIp,
-  setKeyBind,
+  setKeyBinds,
   setPos,
   setUsername,
 }

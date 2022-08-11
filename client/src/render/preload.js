@@ -29,8 +29,8 @@ contextBridge.exposeInMainWorld('api', {
   setPos: (pos) => ipcRenderer.send('setPos', pos),
   getPos: () => ipcRenderer.invoke('getPos'),
 
-  setKeyBinds: (keyBinds) => ipcRenderer.send('setKeyBind', keyBinds),
-  getKeyBinds: () => ipcRenderer.invoke('getKeyBind'),
+  setKeyBinds: (keyBinds) => ipcRenderer.send('setKeyBinds', keyBinds),
+  getKeyBinds: () => ipcRenderer.invoke('getKeyBinds'),
   
   
   setIp: (ip) => ipcRenderer.send('setIp', ip),

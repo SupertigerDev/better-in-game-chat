@@ -106,10 +106,10 @@ const ready = () => {
     return store.get("color");
   });
 
-  ipcMain.on("setKeyBind", (e, keyBinds) => {
+  ipcMain.on("setKeyBinds", (e, keyBinds) => {
     store.set("keybinds", keyBinds);
   });
-  ipcMain.handle("getKeyBind", (e) => {
+  ipcMain.handle("getKeyBinds", (e) => {
     return store.get("keybinds");
   });
 

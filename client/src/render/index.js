@@ -96,7 +96,7 @@ const main = async () => {
     keyBindMode = false;
 
     keyBinds = bindKeys
-    electronApi.setKeyBind(bindKeys)
+    electronApi.setKeyBinds(bindKeys)
 
     const keyBindsString = keyBinds.join("+");
     createProfileMessage(`Bound to: ${keyBindsString}`);
