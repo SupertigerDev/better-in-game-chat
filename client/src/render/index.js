@@ -117,9 +117,6 @@ const main = async () => {
   });
 
 
-
-
-
   const hideBackground = () => {
 
     if (!logArea.classList.contains("show-animate")) return;
@@ -198,9 +195,6 @@ const main = async () => {
 
   }
 
-
-
-
   const createServerMessage = (message) => {
     createMessage(SERVER_MESSAGE_COLOR, "Server", message);
   }
@@ -232,8 +226,6 @@ const main = async () => {
     history.chatClosed();
 
   }
-
-
 
   const createHelpMessage = () => {
 
@@ -407,9 +399,6 @@ setTimeout(() => {
 
   }
 
-
-
-
   const onEnterPressed = (message) => {
     if (message.length > 200) {
       createErrorMessage(`Message is too long!`);
@@ -478,7 +467,6 @@ setTimeout(() => {
   }
 
 
-
   const setMe = () => {
     meElement.style.display = "none";
     if (!socket?.connected) return;
@@ -489,8 +477,6 @@ setTimeout(() => {
     meElement.innerHTML = `[${username}]:`;
     meElement.style.display = "block";
   }
-
-
 
   const connect = () => {
     createServerMessage("Connecting to server...");
@@ -591,7 +577,6 @@ const createHistory = () => {
 
 
 }
-
 
 main();
 
