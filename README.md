@@ -24,9 +24,9 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 - Press up or down to navigate through your messages (Just like a command prompt)
 
 ### How to use
-- To open the chat, press the `Enter` key.  
+- To open the chat, press the `Shift+Enter` key (Can be rebound).  
 - To send a message, press the `Enter` key.  
-- To close the chat, press the `Escape` or the `Enter` key.  
+- To close the chat, press the `Escape` or the `Shift+Enter` key.  
 
 ### Commands
 - `/help` - Shows this help message.

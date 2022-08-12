@@ -15,7 +15,7 @@ const DEFAULT_POS = {
 
 
 window.onerror = (msg, url, line, col, error) => {
-  alert("error happened", message)
+  alert("error happened " + message)
 }
 
 
