@@ -158,7 +158,7 @@ const main = async () => {
 
 
   function sanitize(message) {
-    return message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return message.toString().replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
 
@@ -271,7 +271,7 @@ const main = async () => {
   }
 
 
-  const commandHandler = (message) => {
+  const commandHandler = async (message) => {
 
     const [command, ...args] = message.split(" ");
 
@@ -395,6 +395,20 @@ const main = async () => {
       return true;
     }
 
+    if (command === "/version") {
+      createServerMessage(`v${await electronApi.getAppVersion()}`);
+      return true;
+    }
+
+    if (command === "/reset") {
+      if (args[0] !== "force") {
+        createServerMessage(`This command will reset ALL settings. Type "/reset force" to confirm.`);
+        return true;
+      }
+      electronApi.reset();
+      return true;
+    }
+
     if (command === "/setPos") {
       electronApi.setIgnoreMouseEvents(false);
       const moveElement = document.createElement("div");
@@ -499,7 +513,6 @@ const main = async () => {
 
   const setMe = () => {
     meElement.style.display = "none";
-    if (!socket?.connected) return;
     if (!username) return;
     if (color) {
       meElement.style.color = color;
@@ -507,6 +520,7 @@ const main = async () => {
     meElement.innerHTML = `[${username}]:`;
     meElement.style.display = "block";
   }
+  setMe();
 
   const connect = () => {
     createServerMessage("Connecting to server...");

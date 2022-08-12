@@ -90,6 +90,10 @@ const ready = () => {
     
     processWindows.focusWindow({pid: gameProcessId})
   });
+  ipcMain.on("reset", () => {
+    store.clear();
+    window.webContents.reload();
+  });
 
 
   ipcMain.on("setUsername", (e, username) => {
@@ -104,6 +108,10 @@ const ready = () => {
   });
   ipcMain.handle("getColor", (e) => {
     return store.get("color");
+  });
+
+  ipcMain.handle("appVersion", (e) => {
+    return app.getVersion()
   });
 
   ipcMain.on("setKeyBinds", (e, keyBinds) => {

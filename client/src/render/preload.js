@@ -1,10 +1,12 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer, inAppPurchase } = require('electron')
 
 
 contextBridge.exposeInMainWorld('api', {
   node: () => process.versions.node,
   chrome: () => process.versions.chrome,
   electron: () => process.versions.electron,
+
+  getAppVersion: () => ipcRenderer.invoke("appVersion"),
   
 
   onKeyDown: (e) => ipcRenderer.on('keydown', (event, payload)=> e(payload)),
@@ -35,6 +37,7 @@ contextBridge.exposeInMainWorld('api', {
   
   setIp: (ip) => ipcRenderer.send('setIp', ip),
   getIp: () => ipcRenderer.invoke('getIp'),
+  reset: () => ipcRenderer.send('reset'),
   exitOverlay: () => ipcRenderer.send('exitOverlay'),
 
 

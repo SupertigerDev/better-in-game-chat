@@ -128,7 +128,18 @@ const setIp = window.api.setIp;
  */
 const getIp = window.api.getIp;
 
+/**
+ * Get App Version
+ * @type {() => Promise<string | undefined>})}
+ */
+const getAppVersion = window.api.getAppVersion;
 
+
+/**
+ * Reset all stored settings.
+ * @type {() => void})}
+ */
+const reset = window.api.reset;
 /**
  * Closes the program.
  * @type {() => void})}
@@ -158,4 +169,6 @@ export {
   setKeyBinds,
   setPos,
   setUsername,
+  reset,
+  getAppVersion,
 }
