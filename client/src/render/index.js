@@ -23,7 +23,7 @@ const main = async () => {
   let socket = null;
   let username = (await electronApi.getUsername()) || null;
   let color = (await electronApi.getColor()) || DEFAULT_MESSAGE_COLOR;
-  let keyBinds = (await electronApi.getKeyBinds()) || ['Enter'];
+  let keyBinds = (await electronApi.getKeyBinds()) || ['Shift', 'Enter'];
   let pos = (await electronApi.getPos()) || DEFAULT_POS;
   let ip = (await electronApi.getIp()) || "ws://localhost:8080"
   
