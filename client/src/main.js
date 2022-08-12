@@ -1,6 +1,6 @@
+const {BrowserWindow, app, screen} = require("electron");
 const { uIOhook, UiohookKey } = require('uiohook-napi');
 const forceFocus = require('forcefocus');
-const {BrowserWindow, app, globalShortcut} = require("electron");
 const path = require("path");
 const { ipcMain } = require('electron')
 const processWindows = require("node-process-windows");
@@ -123,10 +123,22 @@ const ready = () => {
 
 
 
-  ipcMain.on("setPos", (e, pos) => {
+  ipcMain.handle("setPos", (e, pos) => {
     const newPos = {...store.get("pos"), ...pos};
+
+    if (newPos.x < 0) newPos.x = 0;
+    if (newPos.y < 0) newPos.y = 0;
+
+    const bounds = window.getBounds();
+    const currentDisplay = screen.getDisplayNearestPoint({x: bounds.x, y: bounds.y});
+    const displayWidth = currentDisplay.bounds.width;
+    const displayHeight = currentDisplay.bounds.height;
+    if (newPos.x + bounds.width > displayWidth) newPos.x = displayWidth - bounds.width;
+    if (newPos.y + bounds.height > displayHeight) newPos.y = displayHeight - bounds.height;
+
     store.set("pos", newPos);
     window.setPosition(newPos.x, newPos.y);
+    return newPos;
   });
 
   ipcMain.handle("getPos", (e) => {

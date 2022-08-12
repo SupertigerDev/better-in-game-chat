@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld('api', {
   setColor: (color) => ipcRenderer.send('setColor', color),
   getColor: () => ipcRenderer.invoke('getColor'),
   
-  setPos: (pos) => ipcRenderer.send('setPos', pos),
+  setPos: (pos) => ipcRenderer.invoke('setPos', pos),
   getPos: () => ipcRenderer.invoke('getPos'),
 
   setKeyBinds: (keyBinds) => ipcRenderer.send('setKeyBinds', keyBinds),

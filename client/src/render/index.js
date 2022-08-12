@@ -30,11 +30,16 @@ const main = async () => {
   let keyBindMode = false;
   let bindKeys = [];
   let currentlyPressedKeys = [];
-
-  electronApi.setPos(pos);
-
-
   let isFocused = false;
+
+
+  const setPos = async  (newPos) => {
+    pos = await electronApi.setPos(newPos);
+  }
+
+  setPos(pos);
+
+
 
   electronApi.onKeyDown(e => {
 
@@ -341,21 +346,21 @@ const main = async () => {
     if (command === "/setX") {
       const x = parseInt(args[0]) || 0;
       pos.x = x;
-      electronApi.setPos(pos);
+      setPos(pos);
       createProfileMessage(`X position updated!`);
       return true;
     }
     if (command === "/setY") {
       const y = parseInt(args[0]) || 0;
       pos.y = y;
-      electronApi.setPos(pos);
+      setPos(pos);
       createProfileMessage(`Y position updated!`);
       return true;
     }
 
     if (command === "/resetPos") {
       pos = DEFAULT_POS;
-      electronApi.setPos(pos);
+      setPos(pos);
       createProfileMessage(`Position has been reset!`);
       return true;
     }
@@ -426,7 +431,7 @@ const main = async () => {
       
       document.getElementById("doneSetPos").addEventListener("click", async() => {
         const currentPosition = await electronApi.getCurrentPos();
-        electronApi.setPos(currentPosition);
+        setPos(currentPosition);
         pos = currentPosition;
         electronApi.setIgnoreMouseEvents(true);
         createProfileMessage(`Position has been set!`);
@@ -474,6 +479,8 @@ const main = async () => {
     socket.emit("createMessage", { message });
 
   }
+
+
 
 
   chatInput.addEventListener("keydown", e => {

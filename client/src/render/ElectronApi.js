@@ -81,7 +81,7 @@ const getColor = window.api.getColor;
 
 /**
  * Set window position
- * @type {(pos: {x: number, y:number}) => void})}
+ * @type {(pos: {x: number, y:number}) => Promise<{x: number, y: number}>})}
  */
 const setPos = window.api.setPos;
 
