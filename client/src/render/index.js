@@ -453,7 +453,7 @@ const main = async () => {
 
   }
 
-  const onEnterPressed = (message) => {
+  const onEnterPressed = async (message) => {
     if (message.length > 200) {
       createErrorMessage(`Message is too long!`);
       return;
@@ -466,7 +466,7 @@ const main = async () => {
     
 
 
-    const commandHandled = commandHandler(message)
+    const commandHandled = await commandHandler(message)
     if (commandHandled) return;
 
     if (!socket.connected) {
