@@ -237,6 +237,7 @@ const main = async () => {
 
     const commandDescriptions = {
       "/help": "Shows this message",
+      "/version": "Shows the current app version.",
       "/username <string>": "Changes your username",
       "/color <string>": "Changes your color",
       "/resetColor": "Reset your color to default",
@@ -245,7 +246,8 @@ const main = async () => {
       "/setY <number>": "Manually set Y position",
       "/resetPos": "Resets your position to default",
       "/connect <string>": "Connects to a server",
-      "/bindKeys <string>": "Binds keys to open chat",
+      "/bindKey <string>": "Binds keys to open chat",
+      "/reset": "Resets all settings",
       "/clear": "Clears the chat",
       "/exit": "Exits the chat",
     }

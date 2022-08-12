@@ -30,14 +30,18 @@ Overwatch doesn't have these issues, and so doesn't this overlay.
 
 ### Commands
 - `/help` - Shows this help message.
+- `/version` - Shows the current app version.
 - `/username <username>` - set username
 - `/color <string>` - set color of your username
-- `/setX <number>` - set the X position of the overlay
-- `/setY <number>` - Set the Y position of the overlay
+- `/resetColor` - Reset your color to default.
+- `/setPos` - Set window position.
+- `/setX <number>` - Manually set X position
+- `/setY <number>` - Manually set Y position
 - `/resetPos` - Reset the X and Y position to default.
 - `/connect <string>` - Connect to a specific server by the IP Address.
-- `/clear` - Clear the chat.
 - `/bindKey` - Bind a key to open the chat.
+- `/reset` - Reset all settings.
+- `/clear` - Clear the chat.
 - `/exit` - Exit the App.
 
 
