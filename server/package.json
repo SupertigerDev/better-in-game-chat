@@ -4,12 +4,16 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "build": "pkg -t node18.5.0-win-x64 src/index.js" 
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "socket.io": "^4.5.1"
+  },
+  "devDependencies": {
+    "pkg": "^5.8.1"
   }
 }
