@@ -1,5 +1,5 @@
 # Better In-Game Chat Overlay
-Game chat systems suck. This overlay fixes that. It's a simple, modern and free chat system overlay for games. Inspired by the game that currently has the best chat system in the world, Overwatch.
+Game chat systems suck. This overlay fixes that. It's a simple, modern and free chat system overlay for games. Inspired by the game that currently has the best chat system in the world, Overwatch. (edit: blizzard ruined the chat system in overwatch 2)
 
 
 ![Example](/preview.png)
